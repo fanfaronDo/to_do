@@ -18,5 +18,6 @@ func NewPostgres(cfg config.Postgres) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return db, nil
 }

@@ -9,17 +9,19 @@ CREATE TABLE users(
     password TEXT NOT NULL
 );
 
-CREATE TABLE user_list(
+CREATE TABLE todo_items(
+    id    SERIAL UNIQUE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date TIMESTAMP NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT NULL
+);
+
+CREATE TABLE user_todo_items(
     id SERIAL UNIQUE,
     user_id INT REFERENCES users(id) NOT NULL,
     todo_id INT REFERENCES todo_items(id) NOT NULL
 );
 
-CREATE TABLE todo_items(
-    id    SERIAL UNIQUE,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    due_date DATETIME,
-    created_at DATETIME DEFAULT NULL,
-    updated_at DATETIME DEFAULT NULL
-);
+

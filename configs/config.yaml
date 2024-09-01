@@ -5,7 +5,7 @@ http_server:
   idle_timeout: 5s
 
 postgres:
-  host: 192.168.50.2
+  host: 192.168.100.2
   port: 5432
   user: postgres
   database: todo
