@@ -6,10 +6,10 @@ import (
 )
 
 type Todo struct {
-	repo repository.Repository
+	repo *repository.Repository
 }
 
-func NewTodo(repo repository.Repository) *Todo {
+func NewTodo(repo *repository.Repository) *Todo {
 	return &Todo{repo}
 }
 

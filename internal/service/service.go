@@ -20,13 +20,13 @@ type TodoService interface {
 }
 
 type Service struct {
-	Authorization
+	AuthorizationService
 	TodoService
 }
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Authorization: NewAuthorization(repo),
-		TodoService:   NewTodo(repo),
+		AuthorizationService: NewAuthorization(repo),
+		TodoService:          NewTodo(repo),
 	}
 }

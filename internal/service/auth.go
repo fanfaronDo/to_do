@@ -25,7 +25,7 @@ type Authorization struct {
 }
 
 func NewAuthorization(repo *repository.Repository) *Authorization {
-	return &Authorization{repo: repo}
+	return &Authorization{repo}
 }
 
 func (r *Authorization) CreateUser(user domain.User) (int, error) {
