@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"github.com/fanfaronDo/to_do/internal/domain"
-	"time"
 )
 
 type TodoItemPg struct {
@@ -19,8 +18,8 @@ func (t *TodoItemPg) CreateItem(userID int, item domain.TodoItem) (domain.TodoIt
 	if err != nil {
 		return domain.TodoItem{}, err
 	}
-	queryInsertItem := "INSERT INTO todo_items(title, description, due_date, created_at) VALUES ($1,$2,$3,$4) RETURNING id"
-	row := tr.QueryRow(queryInsertItem, item.Title, item.Description.String, item.DueDate, item.CreatedAt)
+	queryInsertItem := "INSERT INTO todo_items(title, description, due_date, created_at, updated_at) VALUES ($1,$2,$3,$4,$5) RETURNING id"
+	row := tr.QueryRow(queryInsertItem, item.Title, item.Description, item.DueDate, item.CreatedAt, item.UpdatedAt)
 	err = row.Scan(&item.ID)
 	if err != nil {
 		tr.Rollback()
@@ -85,15 +84,14 @@ func (t *TodoItemPg) DeleteItem(userID, itemID int) error {
 }
 
 func (t *TodoItemPg) UpdateItem(userID, itemID int, item domain.TodoItem) (domain.TodoItem, error) {
-	item.UpdatedAt = sql.NullTime{Time: time.Now(), Valid: true}
 	query := "UPDATE todo_items ti SET title = $1, description = $2, due_date = $3, created_at = $4, updated_at = $5 " +
 		"FROM user_todo_items uti WHERE ti.id = uti.todo_id AND uti.user_id = $6 AND ti.id = $7;"
 	_, err := t.db.Exec(query,
 		item.Title,
-		item.Description.String,
+		item.Description,
 		item.DueDate,
 		item.CreatedAt,
-		item.UpdatedAt.Time,
+		item.UpdatedAt,
 		userID,
 		itemID)
 

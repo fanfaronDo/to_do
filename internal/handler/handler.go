@@ -26,6 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		tasks := api.Group("/tasks")
 		{
 			tasks.POST("/", h.createTodoItem)
+			tasks.GET("/", h.getTodoItems)
 		}
 	}
 

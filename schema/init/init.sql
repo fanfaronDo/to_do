@@ -13,9 +13,9 @@ CREATE TABLE todo_items(
     id    SERIAL UNIQUE,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    due_date TIMESTAMP NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT NULL
+    due_date VARCHAR(255) NOT NULL,
+    created_at VARCHAR(255) NOT NULL,
+    updated_at VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE user_todo_items(
