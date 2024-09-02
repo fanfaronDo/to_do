@@ -1,46 +1,43 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"github.com/fanfaronDo/to_do/internal/config"
-	"github.com/fanfaronDo/to_do/internal/domain"
+	"github.com/fanfaronDo/to_do/internal/handler"
 	"github.com/fanfaronDo/to_do/internal/repository"
-	"time"
+	"github.com/fanfaronDo/to_do/internal/server"
+	"github.com/fanfaronDo/to_do/internal/service"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
 	cfg, _ := config.ConfigLoad()
+	server := server.Server{}
 	conn, err := repository.NewPostgres(cfg.Postgres)
+	defer conn.Close()
+
 	if err != nil {
-		fmt.Println(err)
+		log.Printf("Failed to connect to postgres: %v", err)
+		return
 	}
 	repo := repository.NewRepository(conn)
+	service := service.NewService(repo)
+	handler := handler.NewHandler(service)
+	route := handler.InitRoutes()
 
-	//uid, err := repo.CreateUser(domain.User{
-	//	Name:     "Herawd",
-	//	Username: "heroiasdm",
-	//	Password: "123",
-	//})
-	//if err != nil {
-	//	panic(err)
-	//}
+	go func() {
+		if err = server.Run(cfg.HttpServer, route); err != nil {
+			log.Printf("Failed to start server: %v", err)
+			return
+		}
+	}()
 
-	//ss, err := repo.TodoRepository.CreateItem(2, domain.TodoItem{
-	//	Title:       "second",
-	//	Description: sql.NullString{String: "this is second description"},
-	//	DueDate:     time.Now(),
-	//	CreatedAt:   time.Now(),
-	//})
-
-	ss, err := repo.TodoRepository.UpdateItem(2, 5, domain.TodoItem{
-		Title:       "awd",
-		Description: sql.NullString{String: "awdwaDwd"},
-		DueDate:     time.Now(),
-		CreatedAt:   time.Now(),
-	})
-
-	//err = repo.TodoRepository.DeleteItem(1, 2)
-
-	fmt.Println(ss, err)
+	defer server.Shutdown(nil)
+	log.Printf("Server started on %s\n", "http://"+cfg.HttpServer.Address+":"+cfg.HttpServer.Port)
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutdown Server ...")
 }
