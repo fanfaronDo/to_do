@@ -13,6 +13,9 @@ type AuthorisationRepository interface {
 type TodoRepository interface {
 	CreateItem(userID int, item domain.TodoItem) (domain.TodoItem, error)
 	GetTodoItems(userID int) ([]domain.TodoItem, error)
+	GetByItemID(userID, itemID int) (domain.TodoItem, error)
+	UpdateItem(userID, itemID int, item domain.TodoItem) (domain.TodoItem, error)
+	DeleteItem(userID, itemID int) error
 }
 
 type Repository struct {

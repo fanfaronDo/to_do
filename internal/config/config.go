@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/spf13/viper"
 	"log"
-	"os"
 	"time"
 )
 
@@ -48,7 +47,8 @@ func ConfigLoad() (*Config, error) {
 			Port:     viper.GetString("postgres.port"),
 			User:     viper.GetString("postgres.user"),
 			Database: viper.GetString("postgres.database"),
-			Password: os.Getenv("POSTGRES_PASSWORD"),
+			//Password: os.Getenv("POSTGRES_PASSWORD"),
+			Password: "postgres",
 			SSLMode:  viper.GetString("postgres.ssl_mode"),
 		},
 	}, nil
