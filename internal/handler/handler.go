@@ -15,6 +15,9 @@ func NewHandler(service *service.Service) *Handler {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"App": "Your welcome to Go!"})
+	})
 
 	auth := router.Group("/auth")
 	{
