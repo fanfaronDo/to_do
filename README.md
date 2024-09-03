@@ -4,7 +4,7 @@ To Do List тестовое задаие.
 Разработать REST API для системы управления задачами, которая позволяет пользователям создавать, просматривать, обновлять и удалять задачи.
 
 Как запустить сервис:
-	<pre><code>docker-compose up -d</code><pre>
+	<pre><code>docker-compose up -d</code></pre>
  
 Тесты в postman:
 	Импортировать файл todo.postman_collection.json
