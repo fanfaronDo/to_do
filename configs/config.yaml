@@ -1,11 +1,11 @@
 http_server:
-  address: 127.0.0.1
+  address: 0.0.0.0
   port: 8080
   timeout: 5s
   idle_timeout: 5s
 
 postgres:
-  host: 192.168.56.103
+  host: 192.168.100.2
   port: 5432
   user: postgres
   database: todo

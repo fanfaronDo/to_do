@@ -22,7 +22,7 @@ services:
     container_name: todo_service
     ports:
       - 8080:8080
-    command: ./wait-for-postgres.sh '192.168.100.2' ./note-app
+    command: ./wait-for-postgres.sh '192.168.100.2' ./todo-app
     environment:
       - POSTGRES_PASSWORD=postgres
     networks:
